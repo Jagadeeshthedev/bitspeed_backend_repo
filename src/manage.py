@@ -1,6 +1,4 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from flask import request, jsonify
 from models.contact_model import Contact
 from . import create_app, db
 
