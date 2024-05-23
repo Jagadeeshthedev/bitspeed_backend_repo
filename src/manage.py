@@ -1,6 +1,6 @@
 from flask import request, jsonify
-from . import create_app, db
 from models.contact_model import Contact
+from src import create_app, db
 
 app = create_app()
 
@@ -61,5 +61,6 @@ def identify_contact():
 
 
 if __name__ == '__main__':
-    db.create_all()
+    # with app.app_context():
+    #     db.create_all()
     app.run(debug=True)
