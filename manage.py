@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models.contact_model import Contact
+from src.models.contact_model import Contact
 from src import create_app, db
 
 app = create_app()
