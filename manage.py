@@ -1,8 +1,13 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from src.models.contact_model import Contact
 from src import create_app, db
 
 app = create_app()
+
+
+@app.route('/')
+def index():
+    return render_template("index.html")
 
 
 @app.route('/identify', methods=['POST'])
@@ -63,4 +68,4 @@ def identify_contact():
 if __name__ == '__main__':
     # with app.app_context():
     #     db.create_all()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
