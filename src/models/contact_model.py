@@ -1,8 +1,5 @@
 from datetime import datetime
-
 import pytz
-
-from helper_utils import get_current_time_stamp
 from src import db
 
 
