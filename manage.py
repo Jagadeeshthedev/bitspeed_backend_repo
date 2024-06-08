@@ -1,6 +1,7 @@
 from flask import request, jsonify, render_template
 from src.models.contact_model import Contact
 from src import create_app, db
+from src.helper_utils import get_current_time_stamp
 
 app = create_app()
 
@@ -28,10 +29,10 @@ def identify_contact():
             db.session.commit()
 
         # Checking if the incoming request has new information to the existing contact
-        new_information_contacts = not any(contact.phoneNumber == phone_number and contact.email == email for contact in
-                                           existing_contacts)
+        phone_contacts = any(contact.phoneNumber == phone_number for contact in existing_contacts)
+        email_contacts = any(contact.email == email for contact in existing_contacts)
 
-        if new_information_contacts:
+        if not (phone_contacts and email_contacts):
             new_contact = Contact(
                 phoneNumber=phone_number,
                 email=email,
@@ -40,6 +41,14 @@ def identify_contact():
             )
             db.session.add(new_contact)
             db.session.commit()
+        else:
+            # finding the earliest contact by the created timestamp
+            newest_contact = max(existing_contacts, key=lambda contact: contact.createdAt)
+            if newest_contact.linkPrecedence == 'primary':
+                newest_contact.linkedId = primary_contact.id
+                newest_contact.linkPrecedence = 'secondary'
+                newest_contact.updatedAt = get_current_time_stamp()
+
     else:
         primary_contact = Contact(
             phoneNumber=phone_number,
