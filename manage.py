@@ -1,7 +1,7 @@
 from flask import request, jsonify, render_template
 from src.models.contact_model import Contact
 from src import create_app, db
-from src.helper_utils import get_current_time_stamp
+from helper_utils import get_current_time_stamp
 
 app = create_app()
 
